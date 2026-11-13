@@ -1,0 +1,4 @@
+launch main() gives Nothing {
+    result := 10 + 5;
+    display(result);
+}
