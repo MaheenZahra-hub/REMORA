@@ -10,4 +10,17 @@ struct CompilerError {
     std::string message;
 };
 
+class ErrorReporter {
+private:
+    std::vector<CompilerError> errors;
+
+public:
+    void reportLexical(int line, std::string message);
+    void reportSyntax(int line, std::string message);
+    void reportSemantic(int line, std::string message);
+
+    bool hasErrors();
+    void printAll();
+};
+
 #endif
