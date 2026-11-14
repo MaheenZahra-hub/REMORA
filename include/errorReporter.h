@@ -1,6 +1,9 @@
 #ifndef ERROR_REPORTER_H
 #define ERROR_REPORTER_H
 
+// Declares the shared ErrorReporter class used across lexical, syntax, and
+// semantic phases to collect and display formatted compiler errors.
+
 #include <string>
 #include <vector>
 
