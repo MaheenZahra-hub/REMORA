@@ -1,6 +1,10 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+// Description:-
+// Defines all token types (keywords, data types, operators, punctuation, literals)
+// and the Token struct used to pass scanned tokens to the parser.
+
 #include <string>
 
 enum TokenType {
