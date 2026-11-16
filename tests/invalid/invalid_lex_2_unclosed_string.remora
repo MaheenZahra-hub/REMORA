@@ -1,0 +1,1 @@
+// Test 2: Triggers a lexical error when a Text literal is not closed before newline/EOF.

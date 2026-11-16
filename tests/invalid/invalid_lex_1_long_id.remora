@@ -1,0 +1,1 @@
+// Test 1: Triggers a lexical error when an identifier exceeds 20 characters.
