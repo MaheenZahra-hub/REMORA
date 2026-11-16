@@ -22,5 +22,20 @@ int main(int argc, char* argv[]) {
     buffer << file.rdbuf();
     string sourceCode = buffer.str();
 
+    ErrorReporter reporter;
+    Lexer lexer(sourceCode, reporter);
+    vector<Token> tokens = lexer.tokenize();
+
+    if (reporter.hasErrors()) {
+        reporter.printAll();
+    } else {
+        cout << "--- TOKENS ---" << endl;
+        for (int i = 0; i < tokens.size(); i++) {
+            cout << "Line " << tokens[i].line
+                 << " | Type: " << tokens[i].type
+                 << " | Lexeme: " << tokens[i].lexeme << endl;
+        }
+    }
+
     return 0;
 }
