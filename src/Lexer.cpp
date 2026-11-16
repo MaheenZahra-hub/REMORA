@@ -86,4 +86,36 @@ vector<Token> Lexer::tokenize() {
             }
             tokens.push_back({type, word, line});
         }
+
+        // 4. Numbers (Whole & Decimal)
+        else if (isDigit(c)) {
+            string num = "";
+            int dotCount = 0;
+            bool badNumber = false;
+
+            while (pos < len && (isDigit(source[pos]) || source[pos] == '.')) {
+                if (source[pos] == '.') {
+                    dotCount++;
+                }
+                num += source[pos];
+                pos++;
+            }
+
+            // Check trailing dot (12.), multiple dots (12.3.4), or letters attached (12abc)
+            if (dotCount > 1 || num.back() == '.') {
+                badNumber = true;
+            }
+            while (pos < len && isLetter(source[pos])) {
+                badNumber = true;
+                num += source[pos];
+                pos++;
+            }
+
+            if (badNumber) {
+                reporter.reportLexical(line, "Malformed number '" + num + "'.");
+            }
+
+            TokenType type = (dotCount == 1) ? LIT_DECIMAL : LIT_WHOLE;
+            tokens.push_back({type, num, line});
+        }
     }
