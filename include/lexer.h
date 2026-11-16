@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 
+// Declares the Lexer class responsible for scanning .remora source code
+// character-by-character into a list of tokens.
+
 class Lexer {
 private:
     std::string source;
