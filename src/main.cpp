@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 
+// Entry point for the remora compiler; reads a .remora file, runs the lexer,
+// and prints either the token stream or any detected lexical errors.
+
 using namespace std;
 
 int main(int argc, char* argv[]) {
