@@ -72,4 +72,18 @@ vector<Token> Lexer::tokenize() {
                 pos++;
             }
         }
+        // 3. Identifiers & Keywords
+        else if (isLetter(c)) {
+            string word = "";
+            while (pos < len && (isLetter(source[pos]) || isDigit(source[pos]))) {
+                word += source[pos];
+                pos++;
+            }
+
+            TokenType type = checkKeyword(word);
+            if (type == IDENTIFIER && word.length() > 20) {
+                reporter.reportLexical(line, "Identifier '" + word + "' exceeds 20 characters.");
+            }
+            tokens.push_back({type, word, line});
+        }
     }
