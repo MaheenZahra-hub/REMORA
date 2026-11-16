@@ -118,4 +118,32 @@ vector<Token> Lexer::tokenize() {
             TokenType type = (dotCount == 1) ? LIT_DECIMAL : LIT_WHOLE;
             tokens.push_back({type, num, line});
         }
+        // 5. Text Literals ("...")
+        else if (c == '"') {
+            int startLine = line;
+            string str = "";
+            str += source[pos++]; // opening quote
+
+            while (pos < len && source[pos] != '"' && source[pos] != '\n') {
+                str += source[pos];
+                pos++;
+            }
+
+            if (pos >= len || source[pos] == '\n') {
+                reporter.reportLexical(startLine, "Unclosed string literal.");
+            } else {
+                str += source[pos++]; // closing quote
+            }
+            tokens.push_back({LIT_TEXT, str, startLine});
+        }
+        // 6. Assignment (:=) or Colon (:)
+        else if (c == ':') {
+            if (pos + 1 < len && source[pos + 1] == '=') {
+                tokens.push_back({OP_ASSIGN, ":=", line});
+                pos += 2;
+            } else {
+                tokens.push_back({COLON, ":", line});
+                pos++;
+            }
+        }
     }
