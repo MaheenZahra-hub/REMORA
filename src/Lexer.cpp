@@ -2,6 +2,9 @@
 
 using namespace std;
 
+// Implements the handwritten scanner (DFA) that skips whitespace/comments,
+// tracks line numbers, builds tokens, and reports lexical errors.
+
 Lexer::Lexer(string src, ErrorReporter& rep) : reporter(rep) {
     source = src;
     pos = 0;
