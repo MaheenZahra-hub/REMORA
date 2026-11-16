@@ -16,6 +16,41 @@ bool Lexer::isDigit(char c) {
     return c >= '0' && c <= '9';
 }
 
+TokenType Lexer::checkKeyword(string word) {
+    if (word == "launch")    return KW_LAUNCH;
+    if (word == "craft")     return KW_CRAFT;
+    if (word == "gives")     return KW_GIVES;
+    if (word == "form")      return KW_FORM;
+    if (word == "fixed")     return KW_FIXED;
+    if (word == "when")      return KW_WHEN;
+    if (word == "otherwise") return KW_OTHERWISE;
+    if (word == "repeat")    return KW_REPEAT;
+    if (word == "while")     return KW_WHILE;
+    if (word == "yield")     return KW_YIELD;
+    if (word == "display")   return KW_DISPLAY;
+
+    if (word == "Whole")     return TYPE_WHOLE;
+    if (word == "Decimal")   return TYPE_DECIMAL;
+    if (word == "Text")      return TYPE_TEXT;
+    if (word == "Truth")     return TYPE_TRUTH;
+    if (word == "Nothing")   return TYPE_NOTHING;
+
+    if (word == "yes")       return LIT_YES;
+    if (word == "no")        return LIT_NO;
+
+    if (word == "is")        return OP_IS;
+    if (word == "isnt")      return OP_ISNT;
+    if (word == "above")     return OP_ABOVE;
+    if (word == "below")     return OP_BELOW;
+    if (word == "atleast")   return OP_ATLEAST;
+    if (word == "atmost")    return OP_ATMOST;
+    if (word == "and")       return OP_AND;
+    if (word == "or")        return OP_OR;
+    if (word == "not")       return OP_NOT;
+
+    return IDENTIFIER;
+}
+
 vector<Token> Lexer::tokenize() {
     vector<Token> tokens;
     int len = source.length();
