@@ -16,6 +16,13 @@ private:
     int line;
     ErrorReporter& reporter;
 
+    bool isLetter(char c);
+    bool isDigit(char c);
+    TokenType checkKeyword(std::string word);
+
+public:
+    Lexer(std::string src, ErrorReporter& rep);
+    std::vector<Token> tokenize();
 };
 
 #endif
