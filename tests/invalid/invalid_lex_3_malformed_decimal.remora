@@ -1,1 +1,6 @@
-// Test 3: Triggers lexical errors for trailing dots (19.) and multiple dots (1.2.3).
+// Test 3: Malformed decimal literals
+launch main() gives Nothing {
+    form price: Decimal := 19.;
+    form version: Decimal := 1.2.3;
+    display(price);
+}

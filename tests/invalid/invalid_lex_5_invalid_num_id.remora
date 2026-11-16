@@ -1,1 +1,5 @@
-// Test 5: Triggers a lexical error when an identifier starts with a digit (1st_place).
+// Test 5: Digit-prefixed identifier
+launch main() gives Nothing {
+    form 1st_place: Whole := 100;
+    display(1st_place);
+}

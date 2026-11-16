@@ -1,1 +1,5 @@
-// Test 4: Triggers lexical errors when illegal symbols ($ and @) appear in code.
+// Test 4: Illegal symbols in source code
+launch main() gives Nothing {
+    form cost: Whole := $500;
+    form tag: Text := @;
+}
