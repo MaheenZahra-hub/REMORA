@@ -3,6 +3,9 @@
 
 using namespace std;
 
+// Implements error logging and prints all recorded errors in the standard format:
+// [Lexical/Syntax/Semantic Error] Line X: <message>
+
 void ErrorReporter::reportLexical(int line, string message) {
     errors.push_back({"Lexical", line, message});
 }
