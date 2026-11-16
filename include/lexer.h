@@ -4,10 +4,10 @@
 #include "token.h"
 #include "errorReporter.h"
 #include <string>
-#include <vector>
 
-// Declares the Lexer class responsible for scanning .remora source code
-// character-by-character into a list of tokens.
+// Declares the Lexer class that scans .remora source text into a Token array.
+
+const int MAX_TOKENS = 2000;
 
 class Lexer {
 private:
@@ -22,7 +22,9 @@ private:
 
 public:
     Lexer(std::string src, ErrorReporter& rep);
-    std::vector<Token> tokenize();
+
+    // Scans source code into tokens[] and sets tokenCount to total tokens found
+    void tokenize(Token tokens[], int& tokenCount);
 };
 
 #endif

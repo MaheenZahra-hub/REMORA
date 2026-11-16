@@ -1,0 +1,7 @@
+// Valid Test 5: 20-char identifier boundary, underscores, and case sensitivity
+launch main() gives Nothing {
+    form exactly_twenty_chars: Whole := 20; // Exactly 20 chars -> valid
+    form _private_val1: Whole := 99;
+    form Form: Whole := 1; // Capitalized 'Form' is an identifier, not keyword 'form'
+    display(exactly_twenty_chars);
+}

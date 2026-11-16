@@ -1,1 +1,5 @@
-// Test 2: Triggers a lexical error when a Text literal is not closed before newline/EOF.
+// Test 2: Unclosed string literal before newline
+launch main() gives Nothing {
+    form greeting: Text := "Hello remora world;
+    display(greeting);
+}

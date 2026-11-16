@@ -1,0 +1,9 @@
+// Valid Test 1: Declarations, data types, and literals
+launch main() gives Nothing {
+    form count: Whole := 42;
+    fixed pi: Decimal := 3.14;
+    form msg: Text := "Welcome to remora";
+    form isReady: Truth := yes;
+    form isDone: Truth := no;
+    display(msg);
+}

@@ -1,1 +1,5 @@
-// Test 1: Triggers a lexical error when an identifier exceeds 20 characters.
+// Test 1: Identifier longer than 20 characters
+launch main() gives Nothing {
+    form super_long_variable_name_exceeding_limit: Whole := 10;
+    display(super_long_variable_name_exceeding_limit);
+}
