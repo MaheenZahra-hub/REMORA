@@ -2,23 +2,24 @@
 
 using namespace std;
 
-// Implements the handwritten scanner (DFA) that skips whitespace/comments,
-// tracks line numbers, builds tokens, and reports lexical errors.
-
+// Constructor sets initial position to 0 and line counter to 1
 Lexer::Lexer(string src, ErrorReporter& rep) : reporter(rep) {
     source = src;
     pos = 0;
     line = 1;
 }
 
+// Checks if character is a letter (a-z, A-Z) or underscore (_)
 bool Lexer::isLetter(char c) {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
+// Checks if character is a digit (0-9)
 bool Lexer::isDigit(char c) {
     return c >= '0' && c <= '9';
 }
 
+// Matches a word against remora's reserved keywords, types, and word operators
 TokenType Lexer::checkKeyword(string word) {
     if (word == "launch")    return KW_LAUNCH;
     if (word == "craft")     return KW_CRAFT;
@@ -54,28 +55,30 @@ TokenType Lexer::checkKeyword(string word) {
     return IDENTIFIER;
 }
 
-vector<Token> Lexer::tokenize() {
-    vector<Token> tokens;
+// Reads the entire source string and stores recognized tokens in tokens[]
+void Lexer::tokenize(Token tokens[], int& tokenCount) {
+    tokenCount = 0;
     int len = source.length();
 
-    while (pos < len) {
+    while (pos < len && tokenCount < MAX_TOKENS - 1) {
         char c = source[pos];
 
-        // 1. Whitespace & Newlines
+        // 1. Skip spaces, tabs, and carriage returns
         if (c == ' ' || c == '\t' || c == '\r') {
             pos++;
         }
+        // 2. Increment line counter on newline
         else if (c == '\n') {
             line++;
             pos++;
         }
-        // 2. Single-line Comments (//)
+        // 3. Skip single-line comments starting with //
         else if (c == '/' && pos + 1 < len && source[pos + 1] == '/') {
             while (pos < len && source[pos] != '\n') {
                 pos++;
             }
         }
-        // 3. Identifiers & Keywords
+        // 4. Scan identifiers and keywords
         else if (isLetter(c)) {
             string word = "";
             while (pos < len && (isLetter(source[pos]) || isDigit(source[pos]))) {
@@ -87,9 +90,11 @@ vector<Token> Lexer::tokenize() {
             if (type == IDENTIFIER && word.length() > 20) {
                 reporter.reportLexical(line, "Identifier '" + word + "' exceeds 20 characters.");
             }
-            tokens.push_back({type, word, line});
+
+            tokens[tokenCount] = {type, word, line};
+            tokenCount++;
         }
-        // 4. Numbers (Whole & Decimal)
+        // 5. Scan Whole and Decimal numbers
         else if (isDigit(c)) {
             string num = "";
             int dotCount = 0;
@@ -103,8 +108,8 @@ vector<Token> Lexer::tokenize() {
                 pos++;
             }
 
-            // Check trailing dot (12.), multiple dots (12.3.4), or letters attached (12abc)
-            if (dotCount > 1 || num.back() == '.') {
+            // Flag trailing dot (12.), multiple dots (12.3.4), or letters (12abc)
+            if (dotCount > 1 || num[num.length() - 1] == '.') {
                 badNumber = true;
             }
             while (pos < len && isLetter(source[pos])) {
@@ -118,9 +123,10 @@ vector<Token> Lexer::tokenize() {
             }
 
             TokenType type = (dotCount == 1) ? LIT_DECIMAL : LIT_WHOLE;
-            tokens.push_back({type, num, line});
+            tokens[tokenCount] = {type, num, line};
+            tokenCount++;
         }
-        // 5. Text Literals ("...")
+        // 6. Scan Text literals ("...")
         else if (c == '"') {
             int startLine = line;
             string str = "";
@@ -136,38 +142,44 @@ vector<Token> Lexer::tokenize() {
             } else {
                 str += source[pos++]; // closing quote
             }
-            tokens.push_back({LIT_TEXT, str, startLine});
+
+            tokens[tokenCount] = {LIT_TEXT, str, startLine};
+            tokenCount++;
         }
-        // 6. Assignment (:=) or Colon (:)
+        // 7. Scan assignment (:=) or colon (:)
         else if (c == ':') {
             if (pos + 1 < len && source[pos + 1] == '=') {
-                tokens.push_back({OP_ASSIGN, ":=", line});
+                tokens[tokenCount] = {OP_ASSIGN, ":=", line};
+                tokenCount++;
                 pos += 2;
             } else {
-                tokens.push_back({COLON, ":", line});
+                tokens[tokenCount] = {COLON, ":", line};
+                tokenCount++;
                 pos++;
             }
         }
-        // 7. Single-Character Operators & Punctuation
-        else if (c == '+') { tokens.push_back({OP_PLUS, "+", line}); pos++; }
-        else if (c == '-') { tokens.push_back({OP_MINUS, "-", line}); pos++; }
-        else if (c == '*') { tokens.push_back({OP_MULT, "*", line}); pos++; }
-        else if (c == '/') { tokens.push_back({OP_DIV, "/", line}); pos++; }
-        else if (c == '%') { tokens.push_back({OP_MOD, "%", line}); pos++; }
-        else if (c == '(') { tokens.push_back({LPAREN, "(", line}); pos++; }
-        else if (c == ')') { tokens.push_back({RPAREN, ")", line}); pos++; }
-        else if (c == '{') { tokens.push_back({LBRACE, "{", line}); pos++; }
-        else if (c == '}') { tokens.push_back({RBRACE, "}", line}); pos++; }
-        else if (c == ';') { tokens.push_back({SEMICOLON, ";", line}); pos++; }
-        else if (c == ',') { tokens.push_back({COMMA, ",", line}); pos++; }
-        // 8. Unknown Character
+        // 8. Scan single-character operators and punctuation
+        else if (c == '+') { tokens[tokenCount++] = {OP_PLUS, "+", line}; pos++; }
+        else if (c == '-') { tokens[tokenCount++] = {OP_MINUS, "-", line}; pos++; }
+        else if (c == '*') { tokens[tokenCount++] = {OP_MULT, "*", line}; pos++; }
+        else if (c == '/') { tokens[tokenCount++] = {OP_DIV, "/", line}; pos++; }
+        else if (c == '%') { tokens[tokenCount++] = {OP_MOD, "%", line}; pos++; }
+        else if (c == '(') { tokens[tokenCount++] = {LPAREN, "(", line}; pos++; }
+        else if (c == ')') { tokens[tokenCount++] = {RPAREN, ")", line}; pos++; }
+        else if (c == '{') { tokens[tokenCount++] = {LBRACE, "{", line}; pos++; }
+        else if (c == '}') { tokens[tokenCount++] = {RBRACE, "}", line}; pos++; }
+        else if (c == ';') { tokens[tokenCount++] = {SEMICOLON, ";", line}; pos++; }
+        else if (c == ',') { tokens[tokenCount++] = {COMMA, ",", line}; pos++; }
+        // 9. Report any unknown symbol
         else {
-            string badChar(1, c);
+            string badChar = "";
+            badChar += c;
             reporter.reportLexical(line, "Unknown character '" + badChar + "'.");
             pos++;
         }
     }
 
-    tokens.push_back({END_OF_FILE, "EOF", line});
-    return tokens;
+    // Add END_OF_FILE token at the end
+    tokens[tokenCount] = {END_OF_FILE, "EOF", line};
+    tokenCount++;
 }
