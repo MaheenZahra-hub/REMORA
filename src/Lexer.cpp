@@ -86,7 +86,6 @@ vector<Token> Lexer::tokenize() {
             }
             tokens.push_back({type, word, line});
         }
-
         // 4. Numbers (Whole & Decimal)
         else if (isDigit(c)) {
             string num = "";
@@ -146,4 +145,26 @@ vector<Token> Lexer::tokenize() {
                 pos++;
             }
         }
+        // 7. Single-Character Operators & Punctuation
+        else if (c == '+') { tokens.push_back({OP_PLUS, "+", line}); pos++; }
+        else if (c == '-') { tokens.push_back({OP_MINUS, "-", line}); pos++; }
+        else if (c == '*') { tokens.push_back({OP_MULT, "*", line}); pos++; }
+        else if (c == '/') { tokens.push_back({OP_DIV, "/", line}); pos++; }
+        else if (c == '%') { tokens.push_back({OP_MOD, "%", line}); pos++; }
+        else if (c == '(') { tokens.push_back({LPAREN, "(", line}); pos++; }
+        else if (c == ')') { tokens.push_back({RPAREN, ")", line}); pos++; }
+        else if (c == '{') { tokens.push_back({LBRACE, "{", line}); pos++; }
+        else if (c == '}') { tokens.push_back({RBRACE, "}", line}); pos++; }
+        else if (c == ';') { tokens.push_back({SEMICOLON, ";", line}); pos++; }
+        else if (c == ',') { tokens.push_back({COMMA, ",", line}); pos++; }
+        // 8. Unknown Character
+        else {
+            string badChar(1, c);
+            reporter.reportLexical(line, "Unknown character '" + badChar + "'.");
+            pos++;
+        }
     }
+
+    tokens.push_back({END_OF_FILE, "EOF", line});
+    return tokens;
+}
