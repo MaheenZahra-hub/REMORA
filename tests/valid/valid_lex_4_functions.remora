@@ -1,0 +1,10 @@
+// Valid Test 4: Function definition and calls
+craft multiply(x: Whole, y: Whole) gives Whole {
+    yield x * y;
+}
+
+launch main() gives Nothing {
+    form val: Whole := captureWhole();
+    form res: Whole := multiply(val, 4);
+    display(res);
+}

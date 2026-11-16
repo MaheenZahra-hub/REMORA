@@ -1,0 +1,12 @@
+// Valid Test 3: Conditionals and loops
+launch main() gives Nothing {
+    form i: Whole := 1;
+    repeat while i atmost 5 {
+        when i is 3 {
+            display("Midpoint");
+        } otherwise {
+            display(i);
+        }
+        i := i + 1;
+    }
+}

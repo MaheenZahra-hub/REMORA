@@ -1,0 +1,8 @@
+// Valid Test 2: Arithmetic, relational, and logical operators
+launch main() gives Nothing {
+    form a: Whole := 10 + 5 * 2 - 4 / 2 % 3;
+    form check1: Truth := (a above 10) and (a atleast 15);
+    form check2: Truth := (a below 5) or (a atmost 20);
+    form check3: Truth := not (a is 0) and (a isnt 99);
+    display(check1);
+}
