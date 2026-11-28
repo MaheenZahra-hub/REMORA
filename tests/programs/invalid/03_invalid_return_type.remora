@@ -1,0 +1,10 @@
+craft getAge() gives Whole {
+    yield "twenty";
+}
+
+launch main() gives Nothing {
+    form age: Whole := 20;
+
+    display(age);
+    display(getAge());
+}

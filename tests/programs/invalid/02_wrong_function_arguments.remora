@@ -1,0 +1,9 @@
+craft calculateTotal(number: Whole) gives Whole {
+    yield number + 10;
+}
+
+launch main() gives Nothing {
+    form result: Whole := calculateTotal("hello");
+
+    display(result);
+}

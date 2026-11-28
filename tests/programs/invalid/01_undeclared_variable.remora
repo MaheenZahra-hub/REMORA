@@ -1,0 +1,8 @@
+launch main() gives Nothing {
+    form first: Whole := 10;
+    form second: Whole := 20;
+
+    display(first);
+    display(second);
+    display(total);
+}

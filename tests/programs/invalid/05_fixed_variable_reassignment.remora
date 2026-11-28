@@ -1,0 +1,9 @@
+launch main() gives Nothing {
+    fixed maximum: Whole := 100;
+
+    display(maximum);
+
+    maximum := 200;
+
+    display(maximum);
+}

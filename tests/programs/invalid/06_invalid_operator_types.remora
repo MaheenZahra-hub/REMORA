@@ -1,0 +1,8 @@
+launch main() gives Nothing {
+    form name: Text := "Student";
+    form marks: Whole := 80;
+
+    form result: Whole := name + marks;
+
+    display(result);
+}
