@@ -1,6 +1,6 @@
-
 #include "symbolTable.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -270,37 +270,41 @@ static string getKindName(SymbolKind kind) {
 
 // Display complete symbol history
 void SymbolTable::printSymbolTable() const {
-    cout << "\n========== SYMBOL TABLE ==========\n";
+    cout << "\n============================== SYMBOL TABLE ==============================\n";
 
-    cout << "Name\t\tKind\t\tType\t\tScope\t\tLine\n";
-    cout << "-------------------------------------------------------------\n";
+    cout << left
+         << setw(20) << "Name"
+         << setw(15) << "Kind"
+         << setw(15) << "Type"
+         << setw(30) << "Scope"
+         << setw(10) << "Line"
+         << "\n";
+
+    cout << string(80, '-') << "\n";
 
     for (int i = 0; i < symbolCount; i++) {
         const Symbol& s = symbols[i];
 
-        int scopeIndex = -1;
+        string scopeName = "Unknown";
 
         for (int j = 0; j < scopeCount; j++) {
             if (scopes[j].scopeID == s.scopeID) {
-                scopeIndex = j;
+                scopeName = scopes[j].name;
                 break;
             }
         }
 
-        cout << s.name << "\t\t"
-             << getKindName(s.kind) << "\t\t"
-             << getTypeName(s.type) << "\t\t";
-
-        if (scopeIndex != -1) {
-            cout << scopes[scopeIndex].name;
-        }
-
-        cout << "\t\t" << s.line << "\n";
+        cout << left
+             << setw(20) << s.name
+             << setw(15) << getKindName(s.kind)
+             << setw(15) << getTypeName(s.type)
+             << setw(30) << scopeName
+             << setw(10) << s.line
+             << "\n";
     }
 
-    cout << "==================================\n";
+    cout << string(80, '=') << "\n";
 }
-
 int SymbolTable::getCurrentScopeID() const {
     return currentScopeID;
 }

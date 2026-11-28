@@ -1,0 +1,9 @@
+launch main() gives Nothing {
+    form age: Whole := 20;
+
+    when (age above 18 {
+        display("Eligible");
+    } otherwise {
+        display("Not eligible");
+    }
+}

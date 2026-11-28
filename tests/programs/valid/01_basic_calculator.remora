@@ -1,0 +1,36 @@
+
+craft add(first: Whole, second: Whole) gives Whole {
+    yield first + second;
+}
+
+craft subtract(first: Whole, second: Whole) gives Whole {
+    yield first - second;
+}
+
+craft multiply(first: Whole, second: Whole) gives Whole {
+    yield first * second;
+}
+
+craft divide(first: Whole, second: Whole) gives Whole {
+    yield first / second;
+}
+
+launch main() gives Nothing {
+    form num1: Whole := 40;
+    form num2: Whole := 8;
+    form sum: Whole := add(num1, num2);
+    form difference: Whole := subtract(num1, num2);
+    form product: Whole := multiply(num1, num2);
+    form quotient: Whole := divide(num1, num2);
+
+    display(sum);
+    display(difference);
+    display(product);
+    display(quotient);
+
+    when (sum above product) {
+        display("Sum is greater than product");
+    } otherwise {
+        display("Product is greater or equal");
+    }
+}

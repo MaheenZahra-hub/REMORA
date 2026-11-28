@@ -1,0 +1,30 @@
+craft checkEven(number: Whole) gives Truth {
+    yield (number % 2) is 0;
+}
+
+craft calculateSquare(number: Whole) gives Whole {
+    yield number * number;
+}
+
+launch main() gives Nothing {
+    form number: Whole := 17;
+    form square: Whole := calculateSquare(number);
+    form even: Truth := checkEven(number);
+
+    display("Number Analysis");
+    display(number);
+    display(square);
+    display(even);
+
+    when (even is yes) {
+        display("The number is even");
+    } otherwise {
+        display("The number is odd");
+    }
+
+    when (number above 0) {
+        display("Positive number");
+    } otherwise {
+        display("Zero or negative number");
+    }
+}

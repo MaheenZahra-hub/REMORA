@@ -2,6 +2,8 @@
 #include "../include/errorReporter.h"
 #include "../include/parser.h"
 #include "../include/ASTprinter.h"
+#include "../include/symbolTable.h"
+#include "../include/semanticAnalyzer.h"
 
 #include <iostream>
 #include <fstream>
@@ -11,24 +13,20 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-
     if (argc != 2) {
-        cout << "Usage: remora <file.remora>" << endl;
+        cerr << "Usage: remora <file.remora>" << endl;
         return 1;
     }
 
-    // Read source file
     ifstream file(argv[1]);
-
     if (!file) {
-        cerr << "Error: Could not open file "
-             << argv[1] << endl;
+        cerr << "Error: Could not open file " << argv[1] << endl;
         return 1;
     }
 
     stringstream buffer;
     buffer << file.rdbuf();
-    string sourceCode = buffer.str();
+    const string sourceCode = buffer.str();
     file.close();
 
     ErrorReporter reporter;
@@ -48,12 +46,10 @@ int main(int argc, char* argv[]) {
     }
 
     cout << "--- TOKENS ---\n";
-
-    for (int i = 0; i < tokenCount; i++) {
+    for (int i = 0; i < tokenCount; ++i) {
         cout << "Line " << tokens[i].line
              << " | Type: " << tokens[i].type
-             << " | Lexeme: " << tokens[i].lexeme
-             << endl;
+             << " | Lexeme: " << tokens[i].lexeme << endl;
     }
 
     cout << "\nLexical analysis successful!\n";
@@ -79,14 +75,22 @@ int main(int argc, char* argv[]) {
     printer.print(program);
 
     // STEP 4: SEMANTIC ANALYSIS
-    // Member 4's Semantic Analyzer will be integrated here.
+    cout << "\n========== SEMANTIC ANALYSIS ==========\n";
 
-    cout << "\nSemantic Analyzer integration pending.\n";
+    SymbolTable symbolTable;
+    SemanticAnalyzer semanticAnalyzer(symbolTable, reporter);
 
-    // Free AST memory
+    if (!semanticAnalyzer.analyze(program)) {
+        reporter.printAll();
+        delete program;
+        return 1;
+    }
+
+    cout << "Semantic analysis successful!\n";
+    symbolTable.printSymbolTable();
+
     delete program;
 
-    cout << "\n========== COMPILATION FINISHED ==========\n";
-
+    cout << "\n========== COMPILATION FINISHED SUCCESSFULLY ==========\n";
     return 0;
 }

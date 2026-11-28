@@ -1,0 +1,9 @@
+launch main() gives Nothing {
+    form number: Whole := 10;
+
+    display(number);
+
+    form result: Whole := number @ 5;
+
+    display(result);
+}

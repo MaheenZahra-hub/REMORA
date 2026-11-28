@@ -1,0 +1,32 @@
+craft deposit(balance: Whole, amount: Whole) gives Whole {
+    yield balance + amount;
+}
+
+craft withdraw(balance: Whole, amount: Whole) gives Whole {
+    yield balance - amount;
+}
+
+launch main() gives Nothing {
+    fixed accountNumber: Whole := 12345;
+    form balance: Whole := 5000;
+    form depositAmount: Whole := 2000;
+    form withdrawAmount: Whole := 1000;
+
+    display("Bank Account");
+    display(accountNumber);
+    display(balance);
+
+    balance := deposit(balance, depositAmount);
+    display("After deposit");
+    display(balance);
+
+    balance := withdraw(balance, withdrawAmount);
+    display("After withdrawal");
+    display(balance);
+
+    when (balance above 0) {
+        display("Account has remaining balance");
+    } otherwise {
+        display("Account is empty");
+    }
+}

@@ -1,0 +1,40 @@
+craft factorial(number: Whole) gives Whole {
+    form result: Whole := 1;
+    form counter: Whole := number;
+
+    repeat while (counter above 1) {
+        result := result * counter;
+        counter := counter - 1;
+    }
+
+    yield result;
+}
+
+craft fibonacci(number: Whole) gives Whole {
+    form first: Whole := 0;
+    form second: Whole := 1;
+    form counter: Whole := 2;
+    form next: Whole := 0;
+
+    repeat while (counter atmost number) {
+        next := first + second;
+        first := second;
+        second := next;
+        counter := counter + 1;
+    }
+
+    yield second;
+}
+
+launch main() gives Nothing {
+    form number: Whole := 5;
+
+    form fact: Whole := factorial(number);
+    form fib: Whole := fibonacci(number);
+
+    display("Factorial");
+    display(fact);
+
+    display("Fibonacci");
+    display(fib);
+}
