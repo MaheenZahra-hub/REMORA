@@ -276,7 +276,7 @@ void SymbolTable::printSymbolTable() const {
          << setw(20) << "Name"
          << setw(15) << "Kind"
          << setw(15) << "Type"
-         << setw(20) << "Scope"
+         << setw(30) << "Scope"
          << setw(10) << "Line"
          << "\n";
 
@@ -298,7 +298,7 @@ void SymbolTable::printSymbolTable() const {
              << setw(20) << s.name
              << setw(15) << getKindName(s.kind)
              << setw(15) << getTypeName(s.type)
-             << setw(20) << scopeName
+             << setw(30) << scopeName
              << setw(10) << s.line
              << "\n";
     }
