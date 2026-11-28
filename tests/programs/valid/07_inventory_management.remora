@@ -1,0 +1,39 @@
+craft calculateItemValue(quantity: Decimal, price: Decimal) gives Decimal {
+    yield quantity * price;
+}
+
+craft calculateRemaining(stock: Whole, sold: Whole) gives Whole {
+    yield stock - sold;
+}
+
+launch main() gives Nothing {
+    form itemOneStock: Whole := 100;
+    form itemTwoStock: Whole := 50;
+    form itemThreeStock: Whole := 75;
+
+    form itemOneSold: Whole := 20;
+    form itemTwoSold: Whole := 10;
+    form itemThreeSold: Whole := 25;
+
+    form priceOne: Decimal := 10.5;
+    form priceTwo: Decimal := 20.0;
+    form priceThree: Decimal := 15.5;
+
+    form remainingOne: Whole := calculateRemaining(itemOneStock, itemOneSold);
+    form remainingTwo: Whole := calculateRemaining(itemTwoStock, itemTwoSold);
+    form remainingThree: Whole := calculateRemaining(itemThreeStock, itemThreeSold);
+
+    form valueOne: Decimal := calculateItemValue(80.0, priceOne);
+    form valueTwo: Decimal := calculateItemValue(40.0, priceTwo);
+    form valueThree: Decimal := calculateItemValue(50.0, priceThree);
+
+    display("Inventory Report");
+
+    display(remainingOne);
+    display(remainingTwo);
+    display(remainingThree);
+
+    display(valueOne);
+    display(valueTwo);
+    display(valueThree);
+}

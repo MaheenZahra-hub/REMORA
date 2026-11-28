@@ -1,0 +1,33 @@
+
+craft rectangleArea(width: Decimal, height: Decimal) gives Decimal {
+    yield width * height;
+}
+
+craft squareArea(side: Decimal) gives Decimal {
+    yield side * side;
+}
+
+craft circleArea(radius: Decimal) gives Decimal {
+    yield 3.14 * radius * radius;
+}
+
+launch main() gives Nothing {
+    form width: Decimal := 5.0;
+    form height: Decimal := 8.0;
+    form side: Decimal := 4.0;
+    form radius: Decimal := 3.0;
+
+    form rectangle: Decimal := rectangleArea(width, height);
+    form square: Decimal := squareArea(side);
+    form circle: Decimal := circleArea(radius);
+
+    display(rectangle);
+    display(square);
+    display(circle);
+
+    when (rectangle above square) {
+        display("Rectangle has a larger area");
+    } otherwise {
+        display("Square has a larger or equal area");
+    }
+}

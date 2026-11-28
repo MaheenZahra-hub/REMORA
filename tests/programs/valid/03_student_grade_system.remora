@@ -1,0 +1,27 @@
+craft calculateAverage(math: Whole, science: Whole, english: Whole) gives Whole {
+    yield (math + science + english) / 3;
+}
+
+launch main() gives Nothing {
+    form math: Whole := 88;
+    form science: Whole := 92;
+    form english: Whole := 85;
+
+    form average: Whole := calculateAverage(math, science, english);
+
+    display("Student Grade Report");
+    display(math);
+    display(science);
+    display(english);
+    display(average);
+
+    when (average atleast 80) {
+        display("Excellent performance");
+    } otherwise {
+        when (average atleast 50) {
+            display("Student passed");
+        } otherwise {
+            display("Student failed");
+        }
+    }
+}
